@@ -25,9 +25,10 @@ while True:
         elif event.type == pg.MOUSEMOTION:
             if ball_clicked:
                 line_pos = moved+event.pos
-                #pg.draw.line(screen, (0, 0, 0), ball.rect.center, moved+event.pos, 10)
         elif event.type == pg.MOUSEBUTTONUP:
-            ball_clicked = False
+            if ball_clicked:
+                ball.velocity.update(-dir.x/8, -dir.y/8)
+                ball_clicked = False
         if event.type == pg.QUIT:
             pg.quit()
     screen.blit(ball.image, ball.rect)
@@ -36,9 +37,10 @@ while True:
         mouse_vector = pg.math.Vector2(line_pos)
         dir = mouse_vector - center
 
-        if dir.length()  > 100:
-            dir.scale_to_length(100)
+        if dir.length() > 200:
+            dir.scale_to_length(200)
         end = center + dir
         pg.draw.line(screen, (255,222,89), center, end, 5)
+    ball.update()
     pg.display.update()
     clock.tick(30)
