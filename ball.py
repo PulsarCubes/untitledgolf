@@ -9,6 +9,7 @@ class Ball(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.x = self.rect.x
         self.y = self.rect.y
+        self.radius = self.rect.width / 2
 
     def update(self):
         if self.rect.left<=0:
