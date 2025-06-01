@@ -1,7 +1,7 @@
 import ball
 import pygame as pg
 import random
-import wall
+import tile
 
 pg.init()
 clock = pg.time.Clock()

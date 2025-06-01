@@ -12,6 +12,7 @@ class Tile(pg.sprite.Sprite):
         #note that center is not using pygame coords its using a seperate system
         self.center = center
         self.type = type
+        self.open_faces = []
         self.wallgroup = pg.sprite.Group()
 
         types = {"hallway": 2, "slanted_hallway": 2, "open": 3, "single": 1, "empty": 0, "triangle": 1}
@@ -29,6 +30,7 @@ class Tile(pg.sprite.Sprite):
                     wall_list[1].rect.topleft = (0, 190)
             wall_list[0].rect.topleft = (0, 0)
         if self.type == "single":
+            self.open_faces = [i for i in range(orientation) if i != orientation]
             if orientation % 2 == 0:
                 wall_list[0].rect.topleft = orientation * 95, 0
             else:
@@ -49,12 +51,26 @@ class Tile(pg.sprite.Sprite):
                 wall_list[2].rect.topleft = ((orientation - 1) * 95, 0)
             wall_list[0].rect.topleft = (0, 0)
         if self.type == "triangle":
-            wall_list[0].image = pg.Surface((int(200*1.414),15))
+            wall_list[0].image = pg.Surface((int(200*1.4),15), pg.SRCALPHA)
             wall_list[0].image.fill(((250, 249, 246)))
             wall_list[0].image = pg.transform.rotate(wall_list[0].image,45)
             wall_list[0].rect = wall_list[0].image.get_rect()
             wall_list[0].rect.center = (100,100)
-
+            if orientation % 2 == 0:
+                wall_list[0].image = pg.transform.rotate(wall_list[0].image, 90)
+                wall_list[0].rect = wall_list[0].image.get_rect()
+                wall_list[0].topleft = 0,0
+        if self.type == "slanted_hallway":
+            self.image = pg.Surface((200, 400))
+            self.image.fill((68, 234, 82))
+            for _wall in wall_list:
+                _wall.image = pg.Surface((int(400 * 1.4), 15), pg.SRCALPHA)
+                _wall.image.fill(((250, 249, 246)))
+                _wall.image = pg.transform.rotate(wall_list[0].image, 45)
+                _wall.rect = _wall.image.get_rect(center=_wall.rect.center)
+                _wall.rect.center = (100, 100)
+            wall_list[0].rect.topleft = (0, 0)
+            wall_list[1].rect.topright = (0,200)
     def draw(self, surface):
         surface.blit(self.image, self.rect)
         self.wallgroup.draw(surface)
