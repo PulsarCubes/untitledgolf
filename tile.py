@@ -24,31 +24,36 @@ class Tile(pg.sprite.Sprite):
                 wall_list[1].rect.topleft = (190, 0)
             else:
                 for _wall in wall_list:
-                    _wall.image = pg.transform.rotate(_wall.image, self.orientation*90)
+                    _wall.image = pg.transform.rotate(_wall.image, self.orientation * 90)
                     _wall.rect = _wall.image.get_rect(center=_wall.rect.center)
                     wall_list[1].rect.topleft = (0, 190)
             wall_list[0].rect.topleft = (0, 0)
         if self.type == "single":
             if orientation % 2 == 0:
-                wall_list[0].rect.topleft = orientation*95,0
+                wall_list[0].rect.topleft = orientation * 95, 0
             else:
-                wall_list[0].image = pg.transform.rotate(wall_list[0].image, self.orientation*90)
-                wall_list[0].rect.topleft = (0, (orientation-1)*95)
+                wall_list[0].image = pg.transform.rotate(wall_list[0].image, self.orientation * 90)
+                wall_list[0].rect.topleft = (0, (orientation - 1) * 95)
         if self.type == "open":
             if orientation % 2 == 0:
-                
+
                 wall_list[1].rect.topleft = (190, 0)
-                wall_list[2].image = pg.transform.rotate(wall_list[2].image, (self.orientation+1)*90)
+                wall_list[2].image = pg.transform.rotate(wall_list[2].image, (self.orientation + 1) * 90)
                 wall_list[2].rect = wall_list[2].image.get_rect(center=wall_list[2].rect.center)
-                wall_list[2].rect.topleft = (0, orientation*95)
+                wall_list[2].rect.topleft = (0, orientation * 95)
             else:
                 for _wall in wall_list[:2]:
-                    _wall.image = pg.transform.rotate(_wall.image, self.orientation*90)
+                    _wall.image = pg.transform.rotate(_wall.image, self.orientation * 90)
                     _wall.rect = _wall.image.get_rect(center=_wall.rect.center)
                     wall_list[1].rect.topleft = (0, 190)
-                wall_list[2].rect.topleft = ((orientation-1)*95,0)
+                wall_list[2].rect.topleft = ((orientation - 1) * 95, 0)
             wall_list[0].rect.topleft = (0, 0)
-
+        if self.type == "triangle":
+            wall_list[0].image = pg.Surface((int(200*1.414),15))
+            wall_list[0].image.fill(((250, 249, 246)))
+            wall_list[0].image = pg.transform.rotate(wall_list[0].image,45)
+            wall_list[0].rect = wall_list[0].image.get_rect()
+            wall_list[0].rect.center = (100,100)
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
