@@ -1,11 +1,13 @@
 import pygame as pg
+import os
 
 
 class Ball(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.velocity = pg.math.Vector2(0, 0)
-        self.image = pg.image.load('ball.png')
+        ball_image_path = os.path.join(os.path.dirname(__file__), 'ball.png')
+        self.image = pg.image.load(ball_image_path)
         self.rect = self.image.get_rect()
         self.x = self.rect.x
         self.y = self.rect.y

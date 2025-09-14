@@ -9,7 +9,7 @@ screen = pg.display.set_mode((500, 500))
 pg.display.set_caption('golf on that thing')
 ball_clicked = False
 ball = ball.Ball()
-
+line_color = (0, 0, 0)
 ball.rect.center = (random.randint(0, 500), random.randint(0, 500))
 
 while True:
@@ -40,7 +40,11 @@ while True:
         if dir.length() > 200:
             dir.scale_to_length(200)
         end = center + dir
-        pg.draw.line(screen, (255,222,89), center, end, 5)
+        if dir.length() < 75:
+            line_color = (255, 255, 255*(1-dir.length()/75))
+        elif dir.length() < 150:
+            line_color = (255, 255*(1-(dir.length()-75)/130), 0)
+        pg.draw.line(screen, line_color, center, end, 5)
     ball.update()
     pg.display.update()
-    clock.tick(30)
+    clock.tick(60)
